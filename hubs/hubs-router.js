@@ -1,14 +1,19 @@
 const router = require('express').Router();
 
-// 5 update require path
+// 5 update path for the require
 const Hubs = require('./hubs-model.js');
 
-//3
+// 3
 // this router handles requests beginning with /api/hubs
 // so we remove that part of the URI and replace it with a /
-// rename server.'request' to router.'request'
+
+// 4 rename server. to router.
 router.get('/', (req, res) => {
-    Hubs.find(req.query)
+    // google.com?term=express&sort=desc&field=date
+
+    const query = req.query;
+
+    Hubs.find(query)
         .then(hubs => {
             res.status(200).json(hubs);
         })
@@ -39,7 +44,7 @@ router.get('/:id', (req, res) => {
         });
 });
 
-router.post('', (req, res) => {
+router.post('/', (req, res) => {
     Hubs.add(req.body)
         .then(hub => {
             res.status(201).json(hub);
@@ -89,6 +94,26 @@ router.put('/:id', (req, res) => {
             });
         });
 });
+
+module.exports = router;
+
+// router.get(':channel/messages', (req, res) => {
+// router.get('channel/messages', (req, res) => {
+// router.get('/hubs/messages', (req, res) => {
+// router.get('/hubs/messages/:id', (req, res) => {
+router.get('/:id/messages', (req, res) => { });
+
+router.post('/:id/messages', (req, res) => {
+    const message = { ...req.body, hubId: req.params.id };
+
+    // save the message
+});
+
+router.get('/:id/users', (req, res) => { });
+
+router.get('/:id/threads', (req, res) => { });
+
 // add an endpoint that returns all the messages for a hub
 // add an endpoint for adding new message to a hub
-module.exports = router;
+
+// export default router; // ES Modules
